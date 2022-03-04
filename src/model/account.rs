@@ -12,7 +12,7 @@ impl AccountId {
     }
 }
 
-pub struct Account<'a> {
+pub struct Account {
     pub id: AccountId,
-    pub name: &'a str,
+    pub name: String,
 }

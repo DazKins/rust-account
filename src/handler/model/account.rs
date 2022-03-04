@@ -1,3 +1,4 @@
+use serde::Serialize;
 use uuid::Uuid;
 
 use crate::model::account::{AccountId, Account};
@@ -17,17 +18,17 @@ impl<'a> AccountIdPathParam<'a> {
     }
 }
 
-pub struct AccountDto<'a> {
-    id: &'a str,
-    name: &'a str,
+#[derive(Serialize)]
+pub struct AccountDto {
+    id: String,
+    name: String,
 }
 
-// TODO
-// impl<'a> AccountDto<'a> {
-//     pub fn from_account(account: Account<'a>) -> AccountDto<'a> {
-//         AccountDto{
-//             id: account.id.to_string().as_str(),
-//             name: account.name
-//         }
-//     }
-// }
+impl AccountDto {
+    pub fn from_account(account: Account) -> AccountDto {
+        AccountDto{
+            id: account.id.to_string(),
+            name: account.name
+        }
+    }
+}
