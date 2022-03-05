@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use crate::{service::account::{AccountFetcher, AccountFetchError}, model::account::{Account, AccountId}};
 
 pub trait AccountManager: Sync + Send {
@@ -5,7 +7,7 @@ pub trait AccountManager: Sync + Send {
 }
 
 pub struct DefaultAccountManager {
-    account_fetcher: Box<dyn AccountFetcher>
+    account_fetcher: Arc<dyn AccountFetcher>
 }
 
 pub enum GetAccountError {
@@ -13,7 +15,7 @@ pub enum GetAccountError {
 }
 
 impl DefaultAccountManager {
-    pub fn new(account_fetcher: Box<dyn AccountFetcher>) -> Self {
+    pub fn new(account_fetcher: Arc<dyn AccountFetcher>) -> Self {
         DefaultAccountManager{
             account_fetcher
         }

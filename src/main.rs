@@ -12,12 +12,11 @@ use service::account::DefaultAccountService;
 
 #[async_std::main]
 async fn main() -> Result<(), Error> {
-    let default_account_service = DefaultAccountService;
-    let default_account_manager = DefaultAccountManager::new(Box::new(default_account_service));
-    let r = Arc::new(default_account_manager);
+    let default_account_service = Arc::new(DefaultAccountService);
+    let default_account_manager = Arc::new(DefaultAccountManager::new(default_account_service.clone()));
 
     let server = Server::new(move |req| {
-        handler::account::get(req, r.clone())
+        handler::account::get(req, default_account_manager.clone())
     });
 
     server.run().await
