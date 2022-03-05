@@ -1,16 +1,16 @@
 use std::io::Error;
 
-use crate::handler;
-
 pub struct Server {
     tide_server: tide::Server<()>
 }
 
 impl Server{
-    pub fn new() -> Self {
+    pub fn new(
+        get_account_handler: impl tide::Endpoint<()>
+    ) -> Self {
         let mut server = tide::new();
         server.at("/accounts/:accountId")
-            .get(|req: tide::Request<()>| handler::account::get(req));
+            .get(get_account_handler);
 
         return Server {
             tide_server: server

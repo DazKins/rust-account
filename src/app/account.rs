@@ -1,6 +1,8 @@
 use crate::{service::account::{AccountFetcher, AccountFetchError}, model::account::{Account, AccountId}};
 
-pub trait AccountManager {}
+pub trait AccountManager: Sync + Send {
+    fn get_account(&self, account_id: AccountId) -> Result<Account, GetAccountError>;
+}
 
 pub struct DefaultAccountManager {
     account_fetcher: Box<dyn AccountFetcher>
@@ -16,8 +18,10 @@ impl DefaultAccountManager {
             account_fetcher
         }
     }
+}
 
-    pub fn get_account(&self, account_id: AccountId) -> Result<Account, GetAccountError> {
+impl AccountManager for DefaultAccountManager {
+    fn get_account(&self, account_id: AccountId) -> Result<Account, GetAccountError> {
         match self.account_fetcher.fetch_account(account_id) {
             Ok(account) => Ok(account),
             Err(e) => match e {
