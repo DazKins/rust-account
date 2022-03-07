@@ -1,14 +1,19 @@
 use uuid::Uuid;
 
-pub struct AccountId(Uuid);
+#[derive(PartialEq, Eq)]
+pub struct AccountId {
+    uuid: Uuid
+}
 
 impl AccountId {
-    pub fn new(uuid: Uuid) -> Self {
-        AccountId(uuid)
+    pub const fn new(uuid: Uuid) -> Self {
+        AccountId {
+            uuid
+        }
     }
 
     pub fn to_string(&self) -> String {
-        self.0.to_string()
+        self.uuid.to_string()
     }
 }
 

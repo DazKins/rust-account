@@ -6,11 +6,15 @@ pub struct Server {
 
 impl Server{
     pub fn new(
-        get_account_handler: impl tide::Endpoint<()>
+        get_account_handler: impl tide::Endpoint<()>,
+        put_account_handler: impl tide::Endpoint<()>
     ) -> Self {
         let mut server = tide::new();
         server.at("/accounts/:accountId")
             .get(get_account_handler);
+
+        server.at("/accounts/:accountId")
+            .put(put_account_handler);
 
         return Server {
             tide_server: server
