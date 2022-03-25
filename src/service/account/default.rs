@@ -1,9 +1,10 @@
 use uuid::Uuid;
-
 use crate::model::account::{AccountId, Account};
-
 use super::{AccountFetcher, AccountFetchError, AccountCreator, AccountCreationError};
 
+// pub struct DefaultAccountService {
+//     postgres_client: postgres::Client,
+// }
 pub struct DefaultAccountService;
 
 impl AccountFetcher for DefaultAccountService {
